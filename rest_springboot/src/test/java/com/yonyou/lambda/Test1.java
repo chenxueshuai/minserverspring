@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Test1 {
     public static void main(String[] args) {
-        List list = new LinkedList();
+        List<String> list = new LinkedList<String>();
         new Thread(() -> System.out.println("new thread..")).start();
         list.add("a");
         list.add("b");
