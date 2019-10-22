@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="title" style="text-align: center">
+        测试
+    </div>
+
+<div class="content" style="text-align: center;">
+    <form method="post" action="tender/upload" enctype="multipart/form-data">
+        <div><span>选择类型</span><select name="type"><option value="1">普通计算</option></select></div>
+        <div><span>参数C</span><input value="" name="ratioC"/></div>
+        <div><span>参数N1</span><input value="" name="ratioN1"/></div>
+        <div><span>参数N2</span><input value="" name="ratioN2"/></div>
+        <div><span></span><input name="file" type="file"/></div>
+        <input type="submit" value="提交">
+    </form>
+</div>
+</body>
+</html>
