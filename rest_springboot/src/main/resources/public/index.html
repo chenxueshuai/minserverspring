@@ -2,23 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>工具</title>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="css/vant.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
+<div id="app">
     <div class="title" style="text-align: center">
-        测试
+        投标计算
     </div>
 
-<div class="content" style="text-align: center;">
-    <form method="post" action="tender/upload" enctype="multipart/form-data">
-        <div><span>选择类型</span><select name="type"><option value="1">普通计算</option></select></div>
-        <div><span>参数C</span><input value="" name="ratioC"/></div>
-        <div><span>参数N1</span><input value="" name="ratioN1"/></div>
-        <div><span>参数N2</span><input value="" name="ratioN2"/></div>
-        <div><span></span><input name="file" type="file"/></div>
-        <input type="submit" value="提交">
-    </form>
+    <div class="content" style="text-align: center;">
+        <van-cell-group style="text-align: center; width:360px;">
+            <van-radio-group v-model="fileparam.type">
+                <van-radio name="1">计算方案 1</van-radio>
+                <van-radio name="2">计算方案 2</van-radio>
+            </van-radio-group>
+            <van-field label="参数C   " v-model="fileparam.ratioC" placeholder="参数C"></van-field>
+            <van-field label="参数N1  " v-model="fileparam.ratioN1" placeholder="参数N1"></van-field>
+            <van-field label="参数N2  " v-model="fileparam.ratioN2" placeholder="参数N2"></van-field>
+            <input type="file"/><input type="submit"/>
+        </van-cell-group>
+    </div>
+
+    <div class="resShow">
+        <van-dropdown-menu>
+            <van-dropdown-item v-model="value1" :options="option1"></van-dropdown-item>
+            <van-dropdown-item v-model="value3" :options="option3"></van-dropdown-item>
+            <van-dropdown-item v-model="value2" :options="option2"></van-dropdown-item>
+        </van-dropdown-menu>
+    </div>
+    <div class="showList">
+        <van-row type="flex" justify="space-around" class="btn-radius" style="padding:7px">
+            <van-col class="Cname" span="8">公司名称</van-col>
+            <van-col class="Cmoney" span="3">报价</van-col>
+            <van-col class="Caaa" span="3">a3值</van-col>
+            <van-col class="Ctotal" span="3">最终值</van-col>
+            <van-col span="3">选择</van-col>
+        </van-row>
+        <van-list v-model="loading"
+                  :finished="finished"
+                  finished-text="">
+            <van-row type="flex" justify="space-around" class="btn-radius" style="padding:7px" v-for="item in list"
+                     :key="item">
+                <van-col span="8">{{ item.name }}</van-col>
+                <van-col span="3">{{ item.money}}</van-col>
+                <van-col span="3">{{ item.a3}}</van-col>
+                <van-col span="3">{{ item.total }}</van-col>
+                <van-col span="3">选择</van-col>
+            </van-row>
+        </van-list>
+    </div>
 </div>
 </body>
+
+<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/vant.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
 </html>

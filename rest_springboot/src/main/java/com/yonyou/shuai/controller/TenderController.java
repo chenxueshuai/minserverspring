@@ -74,7 +74,12 @@ public class TenderController {
         setDataMap(tenderDatasource);
         cleanCompany(tenderDatasource);
         handleCompany1(tenderDatasource,c,n1,n2);
-        return JSON.toJSONString(tenderDatasource.datamap);
+        JSONObject res = new JSONObject();
+        res.put("bao",tenderDatasource.bao);
+        res.put("datamap",JSON.toJSON(tenderDatasource.datamap));
+        res.put("company",JSON.toJSON(tenderDatasource.company));
+        res.put("excepList",JSON.toJSON(tenderDatasource.excepList));
+        return JSON.toJSONString(res);
     }
 
     private void handleCompany1(TenderDatasource tenderDatasource, Double ratioC, Double ratioN1, Double ratioN2) {
