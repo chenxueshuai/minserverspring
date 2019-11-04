@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -12,13 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TenderDatasource {
     // id  .... bao 名
-    public  ConcurrentHashMap<String, String> bao = new ConcurrentHashMap<>();
+    public  TreeMap<String, String> bao = new TreeMap<String, String>();
     // id .......公司名
-    public  ConcurrentHashMap<String, String> company = new ConcurrentHashMap<>();
+    public  TreeMap<String, String> company = new TreeMap<String, String>();
     //baoid .....多个公司   JSONObject  companyid  去除空数据
     public  List<Company> dataList = new ArrayList<Company>();
     //   去除错误数据
-    public  ConcurrentHashMap<String, List<Company>> datamap = new ConcurrentHashMap();
+    public  TreeMap<String, List<Company>> datamap = new TreeMap();
 
     public  List<Company> excepList = new ArrayList<Company>();
 }

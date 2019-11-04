@@ -3,7 +3,7 @@ package com.yonyou.shuai.vo;
 /**
  * Created by shuai_pc on 2019/10/19.
  */
-public class Company {
+public class Company  implements Comparable<Company>{
 
     private String id;
     private String name;
@@ -12,6 +12,10 @@ public class Company {
     // 基准价A3
     public Double a3;
     public Double total;
+    // 排序号
+    private int index;
+    private Company company;
+
     public String getId() {
         return id;
     }
@@ -21,7 +25,7 @@ public class Company {
     }
 
     public void setA3(Double a3) {
-        this.a3 = (double) Math.round(a3 * 100) / 100;
+        this.a3 = (double) Math.round(a3 * 10000) / 10000;
     }
 
     public Double getTotal() {
@@ -29,7 +33,7 @@ public class Company {
     }
 
     public void setTotal(Double total) {
-        this.total = (double) Math.round(total * 100) / 100;
+        this.total = (double) Math.round(total * 10000) / 10000;
     }
 
     public void setId(String id) {
@@ -60,6 +64,14 @@ public class Company {
         this.money = money;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,5 +90,11 @@ public class Company {
         result = 31 * result + money.hashCode();
         result = 31 * result + parentId.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(Company company) {
+        return (this.getTotal() > company.getTotal() ? -1 :
+                (this.getTotal() == company.getTotal() ? 0 : 1));
     }
 }

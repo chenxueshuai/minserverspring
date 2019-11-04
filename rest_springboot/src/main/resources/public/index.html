@@ -9,55 +9,97 @@
 </head>
 <body>
 <div id="app">
-    <div class="title" style="text-align: center">
+    <div class="title" style="text-align: center;font-weight: bold;    font-size: 16px; background-color: #0570db;padding: 10px;">
         投标计算
     </div>
 
-    <div class="content" style="text-align: center;">
-        <van-cell-group style="text-align: center; width:360px;">
-            <van-radio-group v-model="fileparam.type">
-                <van-radio name="1">计算方案 1</van-radio>
-                <van-radio name="2">计算方案 2</van-radio>
+    <div class="content" style="text-align: center; height:100%">
+        <van-cell-group style="font-family: Microsoft YaHei,SimSun, Helvetica, Arial; line-height: 1.4; font-size:14px;">
+            <van-radio-group v-model="fileparam.type" class="none">
+                <van-row>
+                    <van-col span="8">
+                        <van-radio name="1">区间平均价浮动法</van-radio>
+                    </van-col>
+                    <van-col span="16" style="text-align: left; color: #ee0a24">
+                        <span style="font-size:10px;">备注: 计算公式：价格部分得分=100-100×n×|投标人的评标总价-基准价|/基准价</span>
+                    </van-col>
+                </van-row>
             </van-radio-group>
-            <van-field label="参数C   " v-model="fileparam.ratioC" placeholder="参数C"></van-field>
-            <van-field label="参数N1  " v-model="fileparam.ratioN1" placeholder="参数N1"></van-field>
-            <van-field label="参数N2  " v-model="fileparam.ratioN2" placeholder="参数N2"></van-field>
-            <input type="file"/><input type="submit"/>
+            <van-row >
+                <van-col span="8">
+                    <van-field label="参数C   " v-model="fileparam.ratioC" placeholder="参数C"></van-field>
+                </van-col>
+                <van-col span="8">
+                    <van-field label="参数N1" v-model="fileparam.ratioN1" placeholder="参数N1"></van-field>
+                </van-col>
+                <van-col span="8">
+                    <van-field label="参数N2" v-model="fileparam.ratioN2" placeholder="参数N2"></van-field>
+                </van-col>
+            </van-row>
+            <van-row  style="text-align: left;font-size: 8px;">
+                <van-col span="8">
+                    <span style="text-align: left; color: #0570db">参数C   </span>
+                </van-col>
+                <van-col span="8">
+                    <span style="text-align: left; color: #0570db">投标人总价&gt=基准价</span>
+                </van-col>
+                <van-col span="8">
+                    <span style="text-align: left; color: #0570db">投标人总价&lt;基准价</span>
+                </van-col>
+            </van-row>
+            <van-row>
+                <van-col span="8"><input id="file" type="file"/></van-col>
+                <van-col span="8">
+                    <van-button type="primary" size="small" @click="submitFile">转换计算</van-button>
+                </van-col>
+                <van-col span="8" style="text-align: right">
+                    <van-button type="primary" size="small" @click="downloadFile">下载</van-button>
+                </van-col>
+            </van-row>
+
         </van-cell-group>
     </div>
 
     <div class="resShow">
         <van-dropdown-menu>
-            <van-dropdown-item v-model="value1" :options="option1"></van-dropdown-item>
-            <van-dropdown-item v-model="value3" :options="option3"></van-dropdown-item>
-            <van-dropdown-item v-model="value2" :options="option2"></van-dropdown-item>
+            <van-dropdown-item v-model="value1" :options="option1" @change="baochange"></van-dropdown-item>
+            <van-dropdown-item v-model="value3" :options="option3" @change="getBycom"></van-dropdown-item>
+            <van-dropdown-item v-model="value2" :options="option2" @change="sortchange"></van-dropdown-item>
         </van-dropdown-menu>
     </div>
     <div class="showList">
-        <van-row type="flex" justify="space-around" class="btn-radius" style="padding:7px">
+        <van-row type="flex" justify="space-around" class="btn-radius" style="padding:7px;background-color: #07c160">
+            <van-col span="1">序号</van-col>
+            <van-col span="1">包名</van-col>
             <van-col class="Cname" span="8">公司名称</van-col>
             <van-col class="Cmoney" span="3">报价</van-col>
-            <van-col class="Caaa" span="3">a3值</van-col>
-            <van-col class="Ctotal" span="3">最终值</van-col>
-            <van-col span="3">选择</van-col>
+            <van-col class="Caaa" span="3">基准价</van-col>
+            <van-col class="Ctotal" span="3">得分</van-col>
+            <van-col class="Ctotal" span="1">排名</van-col>
         </van-row>
-        <van-list v-model="loading"
-                  :finished="finished"
-                  finished-text="">
-            <van-row type="flex" justify="space-around" class="btn-radius" style="padding:7px" v-for="item in list"
-                     :key="item">
-                <van-col span="8">{{ item.name }}</van-col>
-                <van-col span="3">{{ item.money}}</van-col>
-                <van-col span="3">{{ item.a3}}</van-col>
-                <van-col span="3">{{ item.total }}</van-col>
-                <van-col span="3">选择</van-col>
-            </van-row>
-        </van-list>
+        <div style="height:480px;overflow-y: scroll;
+        font-family: Microsoft YaHei,SimSun, Helvetica, Arial; line-height: 1.42857; font-size:12px;">
+            <van-list v-model="loading"
+                      :finished="finished"
+                      finished-text="">
+                <van-row type="flex" justify="space-around" class="btn-radius" v-for="(item, index) in list"
+                         :key="item">
+                    <van-col span="1">{{ index+1 }}</van-col>
+                    <van-col span="1">{{ bao[item.parentId] }}</van-col>
+                    <van-col span="9">{{ item.name }}</van-col>
+                    <van-col span="3">{{ item.money}}</van-col>
+                    <van-col span="3">{{ item.a3}}</van-col>
+                    <van-col span="3">{{ item.total }}</van-col>
+                    <van-col span="1">{{ item.index }}</van-col>
+                </van-row>
+            </van-list>
+        </div>
     </div>
 </div>
 </body>
 
 <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/vant.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
