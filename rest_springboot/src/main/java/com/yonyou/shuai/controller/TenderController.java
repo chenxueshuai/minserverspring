@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by shuai_pc on 2019/10/19.
@@ -281,20 +282,18 @@ public class TenderController {
         id = id.length() == 1 ? "0"+id :id;
         map.put(id,value);
         return id;
-    }    private String insertByValue(TreeMap<String, String> map, String value) {
+    }
+    private String insertByValue(TreeMap<String, String> map, String value) {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        String id = "";
         while (iterator.hasNext()){
             Map.Entry<String, String> entry = iterator.next();
             String key = entry.getKey();
             String val = entry.getValue();
             if (value != null && value.equals(val)){
                 return key;
-            }else{
-                id = val.trim().replace("包","");
             }
         }
-        id = id.length() == 1 ? "0"+id :id;
+        String id = UUID.randomUUID().toString();
         map.put(id,value);
         return id;
     }
