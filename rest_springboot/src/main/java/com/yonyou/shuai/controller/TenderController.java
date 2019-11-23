@@ -46,6 +46,7 @@ public class TenderController {
             return "参数格式错误";
         }
         Workbook workbook = null;
+        long a = System.currentTimeMillis();
         try {
             InputStream inputStream = file.getInputStream();
             if(file.getOriginalFilename().split("\\.")[1].equalsIgnoreCase("xlsx")){
@@ -60,7 +61,6 @@ public class TenderController {
                 String bao = "";
                 String companyName = "";
                 Double moneyd = 0.0;
-
                 try {
                     bao = row.getCell(0).getStringCellValue().trim();
                     companyName = row.getCell(1).getStringCellValue().trim();
@@ -88,6 +88,8 @@ public class TenderController {
         } catch (IOException e) {
 
         }
+        System.out.println(System.currentTimeMillis() - a);
+        a = System.currentTimeMillis();
         setDataMap(tenderDatasource);
         cleanCompany(tenderDatasource);
         handleCompany1(tenderDatasource,c,n1,n2);
@@ -97,6 +99,7 @@ public class TenderController {
         res.put("datamap",JSON.toJSON(tenderDatasource.datamap));
         res.put("company",JSON.toJSON(tenderDatasource.company));
         res.put("excepList",JSON.toJSON(tenderDatasource.excepList));
+        System.out.println(System.currentTimeMillis() - a);
         return JSON.toJSONString(res);
     }
     @PostMapping(value = "tender/export")
@@ -281,7 +284,8 @@ public class TenderController {
         id = id.length() == 1 ? "0"+id :id;
         map.put(id,value);
         return id;
-    }    private String insertByValue(TreeMap<String, String> map, String value) {
+    }
+     private String insertByValue(TreeMap<String, String> map, String value) {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         String id = "";
         while (iterator.hasNext()){
