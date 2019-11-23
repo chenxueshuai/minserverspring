@@ -61,6 +61,7 @@ public class TenderController {
                 String bao = "";
                 String companyName = "";
                 Double moneyd = 0.0;
+
                 try {
                     bao = row.getCell(0).getStringCellValue().trim();
                     companyName = row.getCell(1).getStringCellValue().trim();
@@ -285,20 +286,17 @@ public class TenderController {
         map.put(id,value);
         return id;
     }
-     private String insertByValue(TreeMap<String, String> map, String value) {
+    private String insertByValue(TreeMap<String, String> map, String value) {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        String id = "";
         while (iterator.hasNext()){
             Map.Entry<String, String> entry = iterator.next();
             String key = entry.getKey();
             String val = entry.getValue();
             if (value != null && value.equals(val)){
                 return key;
-            }else{
-                id = val.trim().replace("包","");
             }
         }
-        id = id.length() == 1 ? "0"+id :id;
+        String id = UUID.randomUUID().toString();
         map.put(id,value);
         return id;
     }

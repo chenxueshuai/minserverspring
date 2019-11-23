@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class Test1 {
     public static void main(String[] args) {
-        List<String> list = new LinkedList<String>();
+/*        List<String> list = new LinkedList<String>();
         new Thread(() -> System.out.println("new thread..")).start();
         list.add("a");
         list.add("b");
         list.add("c");
         list.forEach(System.out::println);
-        list.forEach(x -> System.out.print(x + ", "));
+        list.forEach(x -> System.out.print(x + ", "));*/
 
     }
 }
